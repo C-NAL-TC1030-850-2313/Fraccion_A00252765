@@ -33,7 +33,7 @@ class Fraccion
         // Agrega lo necesario para tener la sobrecarga del operador += como función miembro o friend tu decides
         
         // Sobrecarga del operador booleano > como funcion de la clase (función miembro)
-        bool operator> (const Fraccion&);
+        //bool operator> (const Fraccion&);
         
     private:
         int num;

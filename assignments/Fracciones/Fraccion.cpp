@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Fraccion.hpp"
 
 Fraccion::Fraccion(){
@@ -31,7 +32,7 @@ void Fraccion::setDen(int d) {
         num=num/mcdiv;
         den=d/mcdiv;
     } else {
-        den = 1;
+        throw  std::invalid_argument("El denominador debe ser mayor a cero");
     }
 }
 
@@ -47,4 +48,45 @@ int Fraccion::mcd(int n, int d){
         
     }
     return num1;
+}
+
+//Sobrecarga como función miembro de un operador binario
+Fraccion Fraccion::operator+(const Fraccion &f){
+    Fraccion aux;
+    aux.setNum(num*f.den+f.num*den);
+    aux.setDen(den*f.den);
+    return aux;
+}
+
+Fraccion operator-(const Fraccion& f1, const Fraccion& f2){
+    Fraccion aux;
+    aux.setNum(f1.num*f2.den-f2.num*f1.den);
+    aux.setDen(f1.den*f2.den);
+    return aux;
+}
+
+std::ostream& operator<< (std::ostream& salida, const Fraccion& f1){
+    salida << f1.num << "/" << f1.den;
+    return salida;
+}
+
+std::istream &operator>> (std::istream& entrada, Fraccion& f1){
+    int n, d;
+    entrada >> n >> d;
+    f1.setNum(n);
+    f1.setDen(d);
+    return entrada;
+}
+
+//Sobrecarga de preincremento
+Fraccion Fraccion::operator++ (){
+    setNum(++num);
+    *this;
+}
+
+//Sobrecarga de postincremento
+Fraccion Fraccion::operator++ (int){
+    Fraccion anterior(num, den);
+    setNum(++num);
+    return anterior;
 }
